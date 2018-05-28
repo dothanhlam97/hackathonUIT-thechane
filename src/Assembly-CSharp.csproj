@@ -6,7 +6,7 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{F67643D6-C8A8-A039-8B7B-0C197F5D6EA2}</ProjectGuid>
+    <ProjectGuid>{1C51C616-6BA0-A33B-BB1B-F57441CB8DFC}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <AssemblyName>Assembly-CSharp</AssemblyName>
@@ -46,8 +46,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\NewBehaviourScript.cs" />
-     <Compile Include="Assets\NewBehaviourScript1.cs" />
      <Compile Include="Assets\PDollarGestureRecognizer\Geometry.cs" />
      <Compile Include="Assets\PDollarGestureRecognizer\Gesture.cs" />
      <Compile Include="Assets\PDollarGestureRecognizer\GestureIO.cs" />
@@ -57,14 +55,11 @@
      <Compile Include="Assets\Scripts\Detection\Detection.cs" />
      <Compile Include="Assets\Scripts\Detection\Handlecheck.cs" />
      <Compile Include="Assets\Scripts\Detection\LaserBeam.cs" />
-     <Compile Include="Assets\Scripts\GameObject Scripts\ActorScript.cs" />
-     <Compile Include="Assets\Scripts\GameObject Scripts\HealthMonster.cs" />
-     <Compile Include="Assets\Scripts\GameObject Scripts\KnifeScript.cs" />
-     <Compile Include="Assets\Scripts\GameObject Scripts\MonsterScript.cs" />
-     <Compile Include="Assets\Scripts\GamePlay Controller\GameScripts\CameraFollow.cs" />
-     <Compile Include="Assets\Scripts\GamePlay Controller\GameScripts\GamePlayController.cs" />
-     <Compile Include="Assets\Scripts\GamePlay Controller\MainScripts\MainController.cs" />
-     <Compile Include="Assets\Scripts\Test\ABC.cs" />
+     <Compile Include="Assets\Scripts\GameController.cs" />
+     <Compile Include="Assets\Scripts\Item.cs" />
+     <Compile Include="Assets\Scripts\Player.cs" />
+     <Compile Include="Assets\Scripts\Violence.cs" />
+     <Compile Include="Assets\control.cs" />
  <Reference Include="UnityEngine.UI">
  <HintPath>/opt/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>
