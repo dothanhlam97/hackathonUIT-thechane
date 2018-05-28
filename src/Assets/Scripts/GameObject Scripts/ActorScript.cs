@@ -44,10 +44,6 @@ public class ActorScript : MonoBehaviour {
 	private string newGestureName = "";
 	public Detection oDetection = new Detection();
 
-   
-
-
-
 
 	// Use this for initialization
 	void Start () {
@@ -72,19 +68,11 @@ public class ActorScript : MonoBehaviour {
 		Vector3 temp = new Vector3(5.0f,0,-5.0f);
 		horizontalShape.transform.position += temp;
 		oDetection.setShape(Detection.Shape.Horizontal);
-
 	}
 	
 	// Update is called once per frame
 	void Update () {
         // hanleEvent();
-
-        // partical system 
-         // Get the mouse position in pixels, and convert to camera view by dividing by the number of pixels the camera is displaying.
-        
-
-
-
 
         if (platform == RuntimePlatform.Android || platform == RuntimePlatform.IPhonePlayer) {
 			if (Input.touchCount > 0) {
@@ -132,7 +120,6 @@ public class ActorScript : MonoBehaviour {
 
 				currentGestureLineRenderer.SetVertexCount(++vertexCount);
 				currentGestureLineRenderer.SetPosition(vertexCount - 1, Camera.main.ScreenToWorldPoint(new Vector3(virtualKeyPosition.x, virtualKeyPosition.y, 10)));
-
 			}
 
 			if (Input.GetMouseButtonUp(0)) {

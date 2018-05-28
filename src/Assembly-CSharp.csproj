@@ -58,7 +58,6 @@
      <Compile Include="Assets\Scripts\Detection\Handlecheck.cs" />
      <Compile Include="Assets\Scripts\Detection\LaserBeam.cs" />
      <Compile Include="Assets\Scripts\GameObject Scripts\ActorScript.cs" />
-     <Compile Include="Assets\Scripts\GameObject Scripts\Coordinate.cs" />
      <Compile Include="Assets\Scripts\GameObject Scripts\HealthMonster.cs" />
      <Compile Include="Assets\Scripts\GameObject Scripts\KnifeScript.cs" />
      <Compile Include="Assets\Scripts\GameObject Scripts\MonsterScript.cs" />
@@ -66,7 +65,6 @@
      <Compile Include="Assets\Scripts\GamePlay Controller\GameScripts\GamePlayController.cs" />
      <Compile Include="Assets\Scripts\GamePlay Controller\MainScripts\MainController.cs" />
      <Compile Include="Assets\Scripts\Test\ABC.cs" />
-     <Compile Include="Assets\sc.cs" />
  <Reference Include="UnityEngine.UI">
  <HintPath>/opt/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>

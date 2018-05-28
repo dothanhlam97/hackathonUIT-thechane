@@ -303,5 +303,5 @@ namespace SketchDetection {
         }
     }
 
-    
+
 }
