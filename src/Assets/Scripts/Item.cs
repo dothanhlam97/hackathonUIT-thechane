@@ -1,4 +1,4 @@
-﻿using System.Collections;
+﻿﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -28,7 +28,7 @@ public class Item : MonoBehaviour
     {
         if (target.gameObject.tag == "Violence")
         {
-            body.AddForce(new Vector2(240, 90));
+            body.AddForce(new Vector2(280, 90));
         }
     }
 
