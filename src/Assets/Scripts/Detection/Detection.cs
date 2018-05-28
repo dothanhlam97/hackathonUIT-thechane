@@ -29,6 +29,8 @@ namespace SketchDetection {
         }
 
         public void setShape(Shape code) {
+
+            Debug.Log("Set shape ......... " + code);
             shapeCode = code;
         }
 
@@ -286,6 +288,7 @@ namespace SketchDetection {
         
         public bool checkShape(List <Point> points) {
             detectArrayData(points);
+            Debug.Log(this.result + "  xvc sd " + this.shapeCode);
             return this.result == this.shapeCode;
         }
 

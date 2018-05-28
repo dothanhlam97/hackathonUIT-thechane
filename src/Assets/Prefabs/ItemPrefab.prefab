@@ -20,12 +20,12 @@ GameObject:
   m_Component:
   - component: {fileID: 4951391502117840}
   - component: {fileID: 212204371233218792}
-  - component: {fileID: 58349375757821176}
   - component: {fileID: 50171266271457484}
+  - component: {fileID: 58349375757821176}
   - component: {fileID: 114445586688714700}
   m_Layer: 0
   m_Name: ItemPrefab
-  m_TagString: Untagged
+  m_TagString: Item
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

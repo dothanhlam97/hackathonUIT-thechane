@@ -6,8 +6,7 @@ using UnityEngine.UI;
 using PDollarGestureRecognizer;
 using SketchDetection;
 
-public class ShapeController : MonoBehaviour
-{
+public class ShapeController : MonoBehaviour {
     //--- TAI--
     [SerializeField]
     private GameObject verticalPrefab;
@@ -34,19 +33,16 @@ public class ShapeController : MonoBehaviour
     [SerializeField]
     private GameObject circumflexPrefabDone;
     [SerializeField]
-    private Text highscoreText;
-    [SerializeField]
     private GameObject monster;
-    int highScore = 0;
     //---------
     // Lam 
     private GameObject vertical, horizontal, left, right, zizag, circumflex;
     private GameObject verticalDone, horizontalDone, leftDone, rightDone, zizagDone, circumflexDone;
 
-    private List<GameObject> listShape;
-    private List<GameObject> listShapeDone;
+	private List<GameObject> listShape;
+	private List<GameObject> listShapeDone;
     public static int number;
-    public bool stop = false;
+
     private static Coordinates monsterPosition;
     private static Vector3 monsterVector3;
 
@@ -65,7 +61,7 @@ public class ShapeController : MonoBehaviour
 
     public Transform gestureOnScreenPrefab;
 
-    //private List<Gesture> trainingSet = new List<Gesture>();
+    private List<Gesture> trainingSet = new List<Gesture>();
 
     private List<Point> points = new List<Point>();
     private int strokeId = -1;
@@ -80,9 +76,7 @@ public class ShapeController : MonoBehaviour
     private LineRenderer currentGestureLineRenderer;
     private LineRenderer sampleLineRenderer;
 
-
-    private const int maxShape = 6;
-    private const int nShapeUse = 3;
+    
     //GUI
     private bool recognized;
     private string newGestureName = "";
@@ -91,24 +85,16 @@ public class ShapeController : MonoBehaviour
     public GameObject oPlayer;
     public Player sPlayer;
 
-    // destroy shape 
 
-    private bool stopGame = true;
-
-
-    private void Awake()
-    {
-       
-    }
     private void Start()
     {
         // update coordinate monster 
         monsterPosition = new Coordinates();
         monsterVector3 = new Vector3();
         finishAllShape = true;
-        indexShape = new List<int>(0);
-        stateShape = new List<bool>(0);
-        nameShape = new List<Detection.Shape>(0);
+        indexShape = new List<int> (0);
+        stateShape = new List<bool> (0);
+        nameShape = new List<Detection.Shape> (0);
         nameShape.Add(Detection.Shape.Vertical);
         nameShape.Add(Detection.Shape.Horizontal);
         nameShape.Add(Detection.Shape.Left);
@@ -117,67 +103,27 @@ public class ShapeController : MonoBehaviour
         nameShape.Add(Detection.Shape.Circumflex);
 
         sPlayer = oPlayer.GetComponent<Player>();
-        initAllShape();
+		initAllShape();
         codeLam();
-
-        highScore = 0;
-        // Vector3 temp = Camera.main.ScreenToWorldPoint(new Vector3((float)Screen.width / -2.0f + 20, (float)Screen.height / -2.0f + 20, 0));
-        // highscoreText.transform.position = temp;\
-        float width = 0;
-        float height = Screen.height;
-
-        Vector3 vt = Camera.main.ScreenToWorldPoint(new Vector3(width, height, 1));
-        vt.x += 5f;
-        vt.y -= 2f;
-
-        transform.position = vt;
-
-        highscoreText.transform.position = vt;
     }
 
-
-    public void handleStopGame()
-    {
-        stopGame = true;
-        destroyShape();
-    }
-
-    public void handleStartGame()
-    {
-        stopGame = false;
-        destroyShape();
-    }
-    void createRandomList()
-    {
-        if (stopGame)
-        {
-            return;
-        }
-        updateMonsterPosition();
-        for (int i = 0; i < nShape; i++)
-        {
+    void createRandomList() { 
+        updateMonsterPosition(); 
+        for (int i = 0; i < nShape; i++) {
             int iRand;
-            while (true)
-            {
-                iRand = (int)(Random.Range(1.0f, 1000.0f) * 1000) % maxShape;
-                if (iRand == 4)
-                {
-                    continue;
-                }
-                for (int j = 0; j < i; j++)
-                {
-                    if (indexShape[j] == iRand)
-                    {
+            while (true) {
+                iRand = Random.Range(1, 100000) % 6;
+                for (int j = 0; j < i; j++) { 
+                    if (indexShape[j] == iRand) { 
                         iRand = -1;
                         break;
                     }
                 }
-                if (iRand != -1)
-                {
+                if (iRand != -1) {
                     break;
                 }
             }
-            Vector3 temp = new Vector3(monsterPosition.getX() + 2.0f * (i - (int)(nShape / 2) - 1.0f * (nShape & 1)), monsterPosition.getY() + 3f);
+            Vector3 temp = new Vector3(monsterPosition.getX() + 1.0f * (i - (int)(nShape/2) - 0.5f * (nShape & 1)), monsterPosition.getY() + 3f);
             listShape[iRand].transform.position = temp;
             getShape(iRand).GetComponent<Renderer>().enabled = true;
             indexShape.Add(iRand);
@@ -185,62 +131,40 @@ public class ShapeController : MonoBehaviour
         }
     }
 
-    void updateMonsterPosition()
-    {
-        if (monster != null)
-        {
-            monsterPosition.setXY(monster.transform.position.x, monster.transform.position.y);
-        }
+    void updateMonsterPosition() { 
+        monsterPosition.setXY(monster.transform.position.x, monster.transform.position.y);
     }
 
-    void updatePositionShape()
-    {
-        updateMonsterPosition();
-        for (int i = 0; i < nShape; i++)
-        {
-            Vector3 temp = new Vector3(monsterPosition.getX() + 2.0f * (i - (int)(nShape / 2) - 1.0f * (nShape & 1)), monsterPosition.getY() + 6f);
-
-            if (stateShape[i] == true)
-            {
+    void updatePositionShape() {
+        updateMonsterPosition(); 
+        for (int i = 0; i < nShape; i++) { 
+           Vector3 temp = new Vector3(monsterPosition.getX() + 1.0f * (i - (int)(nShape/2) - 0.5f * (nShape & 1)), monsterPosition.getY() + 3f);
+            if (stateShape[i] == true) {
 
                 listShapeDone[indexShape[i]].transform.position = temp;
-                getShapeDone(indexShape[i]).GetComponent<Renderer>().enabled = true;
-                getShape(indexShape[i]).GetComponent<Renderer>().enabled = false;
-            }
-            else
-            {
+                getShapeDone(indexShape[i]).GetComponent<Renderer>().enabled = true; 
+                getShape(indexShape[i]).GetComponent<Renderer>().enabled = false; 
+            } else { 
                 listShape[indexShape[i]].transform.position = temp;
-                getShapeDone(indexShape[i]).GetComponent<Renderer>().enabled = false;
-                getShape(indexShape[i]).GetComponent<Renderer>().enabled = true;
+                getShapeDone(indexShape[i]).GetComponent<Renderer>().enabled = false; 
+                getShape(indexShape[i]).GetComponent<Renderer>().enabled = true; 
             }
         }
     }
 
-    void updateHighScore()
-    {
-        highscoreText.text = "Score: " + System.Convert.ToString(highScore);
-    }
-    public void destroyShape()
-    {
-        finishAllShape = true;
-
-        for (int i = 0; i < nShape; i++)
-        {
-            getShape(indexShape[i]).GetComponent<Renderer>().enabled = false;
-            getShapeDone(indexShape[i]).GetComponent<Renderer>().enabled = false;
+    void destroyShape() {
+        for (int i = 0; i < nShape; i++) { 
+           getShape(indexShape[i]).GetComponent<Renderer>().enabled = false; 
+           getShapeDone(indexShape[i]).GetComponent<Renderer>().enabled = false; 
         }
         indexShape.Clear();
         stateShape.Clear();
-        nShape = 0;
     }
 
-    int callContinueShape()
-    {
+    int callContinueShape() {
         int index = -1;
-        for (int i = 0; i < nShape; i++)
-        {
-            if (stateShape[i] == false)
-            {
+        for (int i = 0; i < nShape; i++) { 
+            if (stateShape[i] == false) { 
                 index = i;
                 break;
             }
@@ -248,30 +172,19 @@ public class ShapeController : MonoBehaviour
         return index;
     }
 
-    void Update()
-    {
-        if (stopGame) {
-            destroyShape();
-            return;
-        }
-        if (finishAllShape)
-        {
-            nShape = Random.Range(1, 10000) % nShapeUse + 1;
+    void Update() {
+        if (finishAllShape) {
+            nShape = Random.Range(1, 10000) % 5 + 1;
             finishAllShape = false;
             createRandomList();
         }
         int iShape = callContinueShape();
-        //Debug.Log(iShape);
-        if (iShape == -1)
-        {
+        Debug.Log(iShape);
+        if (iShape == -1) {
             finishAllShape = true;
-            highScore += nShape * 10;
-            updateHighScore();
             sPlayer.handleThrowItem();
             destroyShape();
-        }
-        else
-        {
+        } else {
             oDetection.setShape(nameShape[indexShape[iShape]]);
             updatePositionShape();
         }
@@ -283,13 +196,12 @@ public class ShapeController : MonoBehaviour
     {
         return listShape[vt];
     }
-
-    public GameObject getShapeDone(int pos)
-    {
+   
+    public GameObject getShapeDone(int pos) { 
         return listShapeDone[pos];
     }
 
-    void initAllShape()
+	void initAllShape()
     {
         listShape = new List<GameObject>();
 
@@ -299,8 +211,8 @@ public class ShapeController : MonoBehaviour
         listShape.Add(right);
         listShape.Add(zizag);
         listShape.Add(circumflex);
-
-
+        
+       
         listShape[0] = Instantiate(verticalPrefab, new Vector3(0, 0, 0), Quaternion.identity);
         listShape[1] = Instantiate(horizontalPrefab, new Vector3(0, 0, 0), Quaternion.identity);
         listShape[2] = Instantiate(leftPrefab, new Vector3(0, 0, 0), Quaternion.identity);
@@ -308,9 +220,9 @@ public class ShapeController : MonoBehaviour
         listShape[4] = Instantiate(zizagPrefab, new Vector3(0, 0, 0), Quaternion.identity);
         listShape[5] = Instantiate(circumflexPrefab, new Vector3(0, 0, 0), Quaternion.identity);
 
-        for (int i = 0; i < maxShape; i++)
+        for (int i = 0; i < 6; i++)
         {
-            getShape(i).GetComponent<Renderer>().enabled = false;
+			getShape(i).GetComponent<Renderer>().enabled = false;
         }
 
         listShapeDone = new List<GameObject>();
@@ -321,8 +233,8 @@ public class ShapeController : MonoBehaviour
         listShapeDone.Add(rightDone);
         listShapeDone.Add(zizagDone);
         listShapeDone.Add(circumflexDone);
-
-
+        
+       
         listShapeDone[0] = Instantiate(verticalPrefabDone, new Vector3(0, 0, 0), Quaternion.identity);
         listShapeDone[1] = Instantiate(horizontalPrefabDone, new Vector3(0, 0, 0), Quaternion.identity);
         listShapeDone[2] = Instantiate(leftPrefabDone, new Vector3(0, 0, 0), Quaternion.identity);
@@ -332,7 +244,7 @@ public class ShapeController : MonoBehaviour
 
         for (int i = 0; i < 6; i++)
         {
-            getShapeDone(i).GetComponent<Renderer>().enabled = false;
+			getShapeDone(i).GetComponent<Renderer>().enabled = false;
         }
     }
 
@@ -394,12 +306,12 @@ public class ShapeController : MonoBehaviour
             if (Input.GetMouseButtonUp(0) && iShape != -1)
             {
                 recognized = true;
-                //Debug.Log("check Shape");
+                Debug.Log("check Shape");
                 if (oDetection.checkShape(points))
                 {
                     stateShape[iShape] = true;
                 }
-                currentGestureLineRenderer.SetVertexCount(0);
+
                 //currentGestureLineRenderer.SetPosition(vertexCount - 1, Camera.main.ScreenToWorldPoint(new Vector3(virtualKeyPosition.x, virtualKeyPosition.y, 10)));
             }
         }
@@ -411,5 +323,10 @@ public class ShapeController : MonoBehaviour
 
         platform = Application.platform;
         drawArea = new Rect(0, 0, Screen.width * 2, Screen.height);
+
+        //Load pre-made gestures
+        TextAsset[] gesturesXml = Resources.LoadAll<TextAsset>("GestureSet/10-stylus-MEDIUM/");
+        foreach (TextAsset gestureXml in gesturesXml)
+            trainingSet.Add(GestureIO.ReadGestureFromXML(gestureXml.text));
     }
 }
