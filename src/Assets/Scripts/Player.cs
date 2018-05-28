@@ -37,9 +37,6 @@ public class Player : MonoBehaviour
     //------------------------ LAM CODE ------------------------------
 
     //GUI
-    private string message;
-    private string message1;
-    private string message2;
     private bool recognized;
     private string newGestureName = "";
     public Detection oDetection = new Detection();
@@ -54,11 +51,24 @@ public class Player : MonoBehaviour
     void Start()
     {
         animator = GetComponent<Animator>();
+        initPosition();
 
         codeLam();
     }
 
-    void codeLam() {
+    void initPosition()
+    {
+        float width = Screen.width - 50;
+        float height = Screen.height / 2;
+
+        Vector3 vt = Camera.main.ScreenToWorldPoint(new Vector3(width, height, 1));
+        vt.x -= 1f;
+
+        transform.position = vt;
+    }
+
+    void codeLam()
+    {
 
         platform = Application.platform;
         drawArea = new Rect(0, 0, Screen.width * 2, Screen.height);
@@ -75,7 +85,7 @@ public class Player : MonoBehaviour
 
         animator = GetComponent<Animator>();
         detach = false;
-        message1 = "Horizontal";
+
         Vector3 temp = new Vector3(5.0f, 0, -5.0f);
         horizontalShape.transform.position += temp;
         oDetection.setShape(Detection.Shape.Horizontal);
@@ -110,8 +120,6 @@ public class Player : MonoBehaviour
 
             if (Input.GetMouseButtonDown(0))
             {
-
-                message = "";
                 recognized = false;
                 strokeId = -1;
 
@@ -140,8 +148,6 @@ public class Player : MonoBehaviour
             {
                 points.Add(new Point(virtualKeyPosition.x, -virtualKeyPosition.y, strokeId));
 
-                message += "(" + Convert.ToString(virtualKeyPosition.x) + "," + Convert.ToString(virtualKeyPosition.y) + ")  ";
-
                 currentGestureLineRenderer.SetVertexCount(++vertexCount);
                 currentGestureLineRenderer.SetPosition(vertexCount - 1, Camera.main.ScreenToWorldPoint(new Vector3(virtualKeyPosition.x, virtualKeyPosition.y, 10)));
             }
@@ -155,7 +161,6 @@ public class Player : MonoBehaviour
                     onThrowItem();
                 }
 
-                message1 = "Vertical";
                 oDetection.setShape(Detection.Shape.Vertical);
                 points.Clear();
                 currentGestureLineRenderer.SetVertexCount(0);

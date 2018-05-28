@@ -50,6 +50,8 @@ namespace SketchDetection {
                     sumLeft ++;
                 }
             }
+            //Debug.Log(sumLeft);
+            //Debug.Log(sumRight);
             if (sumLeft < sumRight / THRESH_LINE) {
                 return Shape.Horizontal;
             }
@@ -64,6 +66,7 @@ namespace SketchDetection {
         }
 
         private Shape predictWithVertical(List<Point> points, int sum_count) {
+
             int sumLeft = 0;
             int sumRight = 0;
             for (var i = 1; i < points.Count; i++) {
@@ -73,6 +76,8 @@ namespace SketchDetection {
                     sumLeft ++;
                 }
             }
+            //Debug.Log(sumLeft);
+            //Debug.Log(sumRight);
             if (sumLeft < sumRight / THRESH_LINE) {
                 return Shape.Vertical;
             }
@@ -119,6 +124,8 @@ namespace SketchDetection {
                     sumLeft ++;
                 }
             }
+            //Debug.Log(sumLeft);
+            //Debug.Log(sumRight);
             if (sumLeft < sumRight / THRESH_LINE) {
                 return Shape.Right;
             }
@@ -212,7 +219,9 @@ namespace SketchDetection {
                 sum1 = sum1 + max(0, his[225 + i]);
                 sum2 = sum2 + max(0, his[135 + i]);
                 sum2 = sum2 + max(0, his[315 + i]);
+                //Debug.Log("histogram " + Convert.ToString(45 + i) +  " " + Convert.ToString(his[45 + i]));
             }
+            //Debug.Log(Convert.ToString(sum1) +  " .... " + Convert.ToString(sum2) +  " .... " + Convert.ToString(sum_count));
             if (sum1 > sum_count / 3 && sum2 > sum_count/ 3) {
                 return Shape.Circumflex;
             }
@@ -255,6 +264,7 @@ namespace SketchDetection {
                     continue;
                 }
                 Point temp = new Point(points[i].X - points[i-1].X, points[i].Y - points[i-1].Y, 0);
+                // Debug.Log(points[i].getPoint());
                 double tanAngle = temp.Y / (temp.X + 0.0000000001);
                 double radians = Math.Atan(tanAngle);
                 double angle = radians * (180.0/Math.PI);
@@ -262,6 +272,7 @@ namespace SketchDetection {
                     angle += 360.0;
                 } 
                 this.message += Convert.ToString(angle) + " ";
+                //Debug.Log(Convert.ToString(angle) + temp.getPoint());
                 if ((int)angle == 360) {
                     histogram[0] ++;
                 } else {

@@ -27,6 +27,7 @@ public class LaserBeam : MonoBehaviour {
    
     // Use this for initialization
     void Start () {
+        Debug.Log("render");
         lineRenderer = GetComponent<LineRenderer>();
         lineRenderer.SetWidth(laserWidth, laserWidth);
         myTransform = transform;
@@ -48,6 +49,7 @@ public class LaserBeam : MonoBehaviour {
        
         lineRenderer.SetColors(color,color);
         //Move through the Array
+        Debug.Log(length);
         for(int i = 0; i<length; i++){
             //Set the position here to the current location and project it in the forward direction of the object it is attached to
             offset.x =myTransform.position.x+i*myTransform.forward.x+2;
