@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -23,11 +22,16 @@ public class Violence : MonoBehaviour
     float stunTime;
     private State state;
 
+    [SerializeField]
+    public GameObject gameControllerObj;
+
+    public GameController gameController;
     // Use this for initialization
     void Start()
     {
+        gameController = gameControllerObj.GetComponent<GameController>();
+
         animator = GetComponent<Animator>();
-        Application.targetFrameRate = 30;
 
         initValue();
         initPosition();
@@ -35,17 +39,19 @@ public class Violence : MonoBehaviour
 
     void initValue()
     {
-        moveSpeed = (float)0.015f;
-        stunTime = (float)1f;
-        cntValue = (float)2f;
+        moveSpeed = (float)0.01f;
+        stunTime = (float)2f;
+        cntValue = (float)10f;
     }
 
     void initPosition()
     {
         float width = Screen.width / 2;
-        float height = Screen.height / 2;
+        float height = 0;
 
         Vector3 vt = Camera.main.ScreenToWorldPoint(new Vector3(width, height, 1));
+        vt.x += 3f;
+        vt.y += 7f;
 
         transform.position = vt;
     }
@@ -53,6 +59,50 @@ public class Violence : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
+        switch (gameController.gameState)
+        {
+            case GameController.GameState.Countdown:
+                {
+                    handleCountDownState();
+                    break;
+                }
+            case GameController.GameState.Play:
+                {
+                    handlePlayState();
+                    break;
+                }
+            case GameController.GameState.Pause:
+                {
+                    break;
+                }
+            case GameController.GameState.Lose:
+                {
+                    break;
+                }
+
+            case GameController.GameState.Win:
+                {
+                    break;
+                }
+        }
+
+    }
+
+    void handleCountDownState()
+    {
+        if (animator.enabled == true)
+        {
+            animator.enabled = false;
+        }
+    }
+
+    void handlePlayState()
+    {
+        if (animator.enabled == false)
+        {
+            animator.enabled = true;
+        }
+
         if (state == State.Stun)
         {
             stunTime -= Time.deltaTime;
@@ -78,12 +128,17 @@ public class Violence : MonoBehaviour
         }
     }
 
+    void handlePauseGame()
+    {
+
+    }
+
     void handleMove()
     {
         Vector3 vt = transform.position;
 
         vt.x -= moveSpeed;
-        Debug.Log(vt.x);
+        //Debug.Log(vt.x);
 
         transform.position = vt;
     }
@@ -113,12 +168,13 @@ public class Violence : MonoBehaviour
 
     public void onTriggerWithItem()
     {
+        sidlerBar.value += cntValue;
+
         switch (state)
         {
             case State.Move:
                 {
                     state = State.Stun;
-
                     animator.SetTrigger("onTriggerIdle");
                     stunTime = 1f;
                     break;
@@ -133,8 +189,6 @@ public class Violence : MonoBehaviour
                     break;
                 }
         }
-
-        sidlerBar.value += cntValue;
     }
 
     public void onTriggerWithActor()
@@ -142,83 +196,3 @@ public class Violence : MonoBehaviour
 
     }
 }
-=======
-﻿﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class Violence : MonoBehaviour
-{
-
-    public enum State { Move, Stun, Attack };
-    public float moveSpeed = 2f;
-
-    private State state;
-    // Use this for initialization
-    void Start()
-    {
-
-    }
-
-    void Update() {
-        if (Input.GetKey(KeyCode.Space)) { 
-            state = State.Attack;
-        } else {
-            state = State.Move;
-        }
-    }
-
-    // Update is called once per frame
-    void FixedUpdate()
-    {
-        onMove();
-    }
-
-    void onMove()
-    {
-        
-        switch (state)
-        {
-            case State.Move:
-                {
-                    Vector3 vt = transform.position;
-                    vt.x -= moveSpeed * Time.deltaTime;
-                    transform.position = vt;
-                    break;
-                }
-            case State.Attack:
-                {
-                    break;
-                }
-            case State.Stun:
-                {
-                    break;
-                }
-        }
-    }
-
-    public void OnTriggerEnter(Collider target)
-    {
-        
-    }
-
-    public void onTriggerWithItem()
-    {
-        switch (state)
-        {
-            case State.Move:
-                {
-                    break;
-                }
-            case State.Stun:
-                {
-                    break;  
-                }
-            case State.Attack:
-                {
-                    break;
-                }
-        }
-    }
-}
->>>>>>> 3dc2a3a08d7d06d8f282a1e8056c1f5f9f43190a
